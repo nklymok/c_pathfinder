@@ -4,7 +4,7 @@ char *mx_strnew(const int size) {
 	if (size < 1) {
 		return NULL;
 	}
-	char *p = (char *) malloc(size + 1);
+	char *p = (char *) malloc(sizeof(char) * (size + 1));
 	if (!p) {
 		return NULL;
 	}

@@ -38,6 +38,10 @@ void report_error(int errno, char *filename) {
             prefix = mx_strdup(error_num_islands);
             suffix = "";
             break;
+        case ERR_LEN_SUM_TOO_BIG:
+            prefix = mx_strdup(error_len_sum);
+            suffix = "";
+            break;
         default:
             prefix = mx_strjoin(error_line_template, mx_itoa(errno));
             suffix = not_valid;
