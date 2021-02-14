@@ -15,6 +15,7 @@ typedef struct s_list {
     struct s_list *next;
 }               t_list;
 
+int mx_atoi(const char *str);
 t_list *mx_create_node(void *data);
 void mx_push_front(t_list **list, void *data);
 void mx_push_back(t_list **list, void *data);
@@ -33,6 +34,7 @@ void *mx_memccpy(void *restrict dst, const void *restrict src, int c, size_t n);
 void *mx_memmem(const void *big, size_t big_len, const void *little, size_t little_len);
 int mx_strlen(const char *s);
 void mx_printstr(const char *s);
+void mx_printerr(const char *s);
 void mx_swap_char(char *s1, char *s2);
 char *mx_strcpy(char *dst, const char *src);
 int mx_strcmp(const char *s1, const char *s2);
@@ -44,6 +46,9 @@ char *mx_strdup(const char *s1);
 char *mx_strjoin(const char *s1, const char *s2);
 void mx_strdel(char **str);
 void mx_del_strarr(char ***arr);
+bool mx_isdigit(int c);
+bool mx_file_is_empty(const char *filename);
+bool mx_file_exists(const char *filename);
 char *mx_file_to_str(const char *filename);
 int mx_read_line(char **lineptr, size_t buf_size, char delim, const int fd);
 char *mx_strncpy(char *dst, const char *src, int len);

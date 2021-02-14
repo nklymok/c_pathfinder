@@ -22,12 +22,12 @@ LIB = libmx.a
 all:    $(NAME)
 
 $(NAME):        $(OBJ) $(LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -L. $(LIBD)/$(LIB)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -L. $(LIBD)/$(LIB)
 
 $(OBJ): |       $(OBJD)
 
 $(LIB):
-	$(MAKE) -C $(LIBD)
+	@$(MAKE) -sC $(LIBD)
 
 $(OBJD)/%.o: $(SRCD)/%.c $(INC)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCD)
@@ -37,10 +37,10 @@ $(OBJD):
 
 clean:
 	@$(RM) $(OBJD)
-	$(MAKE) clean -C $(LIBD)
+	@$(MAKE) clean -sC $(LIBD)
 
 uninstall: clean
 		@$(RM) $(NAME)
-		$(MAKE) uninstall -C $(LIBD)
+		@$(MAKE) uninstall -sC $(LIBD)
 
 reinstall: uninstall all

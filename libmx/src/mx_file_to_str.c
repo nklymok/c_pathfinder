@@ -6,8 +6,9 @@ char *mx_file_to_str(const char *filename) {
     int size = 0;
     int fd;
 
-    if (!filename)
+    if (!filename) {
         return NULL;
+    }
     fd = open(filename, O_RDONLY);
     if (fd == -1)
         return NULL;
