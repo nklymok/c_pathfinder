@@ -25,16 +25,16 @@ bool check_file_is_empty(char *filename) {
 }
 
 bool first_line_correct(char *first_line) {
-    int first_line_as_int;
+    long first_line_as_long;
     // check for non-digits for first line
     for (int i = 0; i < mx_strlen(first_line); i++) {
         if (!mx_isdigit(first_line[i])) {
             return false;
         }
     }
-    first_line_as_int = mx_atoi(first_line);
+    first_line_as_long = mx_atol(first_line);
     // check for negative
-    if (first_line_as_int < 1) {
+    if (first_line_as_long < 1) {
         return false;
     }
     return true;
@@ -131,7 +131,6 @@ int check_lines(char *filename, t_graph *graph) {
         }
         // TODO put islands into graph
         // TODO check for duplicates
-        // TODO check for len sum too big
     }
     // if hasn't reached EOF
     if (mx_read_line(&current_line, 1, '\n', fd) != -1) {

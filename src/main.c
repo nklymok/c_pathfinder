@@ -10,8 +10,7 @@ void del_graph(t_graph **graph) {
 int main(int argc, char **argv) {
     t_graph *graph = malloc(sizeof(t_graph));
     if (!handle_errors(argc, argv, graph)) {
-        del_graph(&graph);
-        exit(0);
+        // do stuff
     }
     del_graph(&graph);
 }
