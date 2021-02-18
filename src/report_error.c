@@ -42,6 +42,10 @@ void report_error(int errno, char *filename) {
             prefix = mx_strdup(error_len_sum);
             suffix = "";
             break;
+        case ERR_DUPLICATE_BRIDGES:
+            prefix = mx_strdup(error_dup_bridges);
+            suffix = "";
+            break;
         default:
             prefix = mx_strjoin(error_line_template, mx_itoa(errno));
             suffix = not_valid;

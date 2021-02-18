@@ -1,3 +1,5 @@
-2
-hello-world,2147483647
-hello-world,1
+4
+GL-Bananal,8
+Fraser-GL,10
+Bananal-Fraser,3
+Java-Fraser,5

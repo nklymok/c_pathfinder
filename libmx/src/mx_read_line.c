@@ -1,6 +1,6 @@
 #include "libmx.h"
 
-//
+// returns 0 if delimiter is met, or -1 if EOF
 // put everything from previous buffer until delimiter, continue to while
 int mx_read_line(char **lineptr, size_t buf_size, char delim, const int fd) {
     static char *buf;

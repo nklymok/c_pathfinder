@@ -8,12 +8,16 @@
 #define ERR_NUM_OF_ISLANDS -4
 #define ERR_DUPLICATE_ISLANDS -5
 #define ERR_LEN_SUM_TOO_BIG -6
+#define ERR_DUPLICATE_BRIDGES -7
 
 #define MAX_INT 2147483647
 
 typedef struct s_graph {
     int island_count;
     long len_sum;
+    int last_filled_index;
+    char **islands;
+    int *weights;
 } t_graph;
 
 bool handle_errors(int argc, char **argv, t_graph *graph);

@@ -61,6 +61,7 @@ int mx_count_words(const char *str, char delimiter);
 int mx_count_substr(const char *str, const char *sub);
 char *mx_strchr(const char *s, int c);
 int mx_get_char_index(const char *str, char c);
+int mx_get_str_index(const char *needle, const char **str);
 bool mx_isalpha(int c);
 bool mx_isspace(char c);
 int mx_get_substr_index(const char *str, const char *sub);
