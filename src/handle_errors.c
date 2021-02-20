@@ -1,5 +1,19 @@
+/*
+ * handle_errors provides a few functions that,
+ * apart of error handling, fills in given graph(!).
+ * entry point that shows the process of error handling
+ * can be seen in handle_errors(int argc, char **argv, t_graph graph)
+ */
+
 #include "pathfinder.h"
 
+/**
+ * A program should start with 2 arguments:
+ * 1) program name
+ * 2) file name
+ * @param argc - the count of program arguments
+ * @return true if argument count is correct, otherwise false.
+ */
 bool check_args(int argc) {
     if (argc != 2) {
         report_error(ERR_ARG_COUNT, NULL);
@@ -24,6 +38,12 @@ bool check_file_is_empty(char *filename) {
     return true;
 }
 
+/**
+ * Checks the first line:
+ * It should contain only a positive number
+ * @param first_line - pointer to the first line
+ * @return true if correct format, otherwise false.
+ */
 bool first_line_correct(char *first_line) {
     long first_line_as_long;
 
@@ -41,7 +61,15 @@ bool first_line_correct(char *first_line) {
     return true;
 }
 
-// TODO check line (duplicates)
+/**
+ * Checks every line except the first one.
+ * The line should match the following format: A-B,p, where:
+ *      A is the name of the first island (only abc)
+ *      B is the name of the second island (only abc)
+ *      p is the distance between A and B (only positive decimal number)
+ * @param line - line to check
+ * @return returns false in case of any described errors, otherwise false.
+ */
 bool check_bridge_syntax(char *line) {
     bool comma_met = false;
     bool hyphen_met = false;
@@ -69,7 +97,15 @@ bool check_bridge_syntax(char *line) {
     return true;
 }
 
-// result[0] - island1, result[1] - island2, result[2] - cost
+/**
+ * parses islands and distance from line.
+ * Should be called only after checking line syntax with check_bridge_syntax
+ * @param line - the line to be checked
+ * @return the array of strings, where: \
+ *      [0] - name of island1, \
+ *      [1] - name of island2, \
+ *      [2] - distance (so-called cost)
+ */
 char **parse_islands(char *line) {
     char **hyphen_separated = mx_strsplit(line, '-');
     char *island1 = hyphen_separated[0];
@@ -144,6 +180,15 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
     return 0;
 }
 
+/**
+ * Fills all distances between islands with -1.
+ * -1 is used to show that there is no connection between islands.
+ * If there is a connection, other functions will
+ *      replace -1 with a real value.
+ * @param weights - pointer to array that contains weights (distances)
+ *                  between islands
+ * @param arr_size - size of weights array
+ */
 void fill_weights(int *weights, int arr_size) {
     for (int i = 0; i < arr_size; i++) {
         for (int j = 0; j < arr_size; j++) {
@@ -152,6 +197,17 @@ void fill_weights(int *weights, int arr_size) {
     }
 }
 
+/**
+ * Checks the file lines for all possible errors.
+ * This function calls other functions to check line syntax and parse data.
+ * After finishing, graph will be filled with initial data from file.
+ * @param filename - a file that contains data to parse later
+ * @param graph - an empty t_graph
+ * @return 0 - if finished correctly, \
+ *         ERR_LEN_SUM_TOO_BIG - if total sum of distances \
+ *                               between islands is too big. \
+ *         a positive number - index of incorrect line.
+ */
 int check_lines(char *filename, t_graph *graph) {
     int fd;
     char *current_line = mx_strnew(100);
@@ -193,8 +249,14 @@ int check_lines(char *filename, t_graph *graph) {
     return 0;
 }
 
-// checks arg count, whether file exists or empty
-// checks first line (and sets island_count)
+/**
+ * Entry poing for error handling.
+ * In case of errors, calls report_error that shows the error in stderr.
+ * @param argc - argument count passed to program
+ * @param argv - arguments passed to program
+ * @param graph - an empty graph
+ * @return true if finished successfully, otherwise false.
+ */
 bool handle_errors(int argc, char **argv, t_graph *graph) {
     char *filename;
 

@@ -1,5 +1,17 @@
 #include "pathfinder.h"
 
+/**
+ * Outputs errors to stderr.
+ * Types of errors:
+ * ERR_ARG_COUNT (-1) - if argument count is incorrect;
+ * ERR_FILE_NOT_EXISTS (-2) - if file is not found;
+ * ERR_FILE_IS_EMPTY (-3) - if file is empty;
+ * ERR_NUM_OF_ISLANDS (-4) - if number of islands at line 1 is incorrect;
+ * ERR_DUPLICATE_BRIDGES (-5) - if some bridges duplicate;
+ * ERR_LEN_SUM_TOO_BIG (-6) if sum of bridge distances exceeds MAX_INTEGER;
+ * @param errno - number of error to report to stderr
+ * @param filename - name of file passed to the program
+ */
 void report_error(int errno, char *filename) {
     char *error_file_template = "error: file ";
     char *error_line_template = "error: line ";

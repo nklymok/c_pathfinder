@@ -23,3 +23,5 @@ typedef struct s_graph {
 bool handle_errors(int argc, char **argv, t_graph *graph);
 void report_error(int errno, char *filename);
 void find_paths(t_graph *graph);
+void output_graph_matrix(t_graph *graph);
+void output_graph_routes(t_graph *graph);

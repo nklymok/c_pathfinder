@@ -1,6 +1,6 @@
 #include "pathfinder.h"
 
-void set_litaral_path(t_graph *graph, int island1, int island2) {
+void set_literal_path(t_graph *graph, int island1, int island2) {
     (void) graph;
     (void) island1;
     (void) island2;
@@ -11,6 +11,7 @@ void find_paths(t_graph *graph) {
     int *curr_path;
     int path1 = 0;
     int path2 = 0;
+
     // Floyd-Warshall algorithm
     for (int i = 0; i < isl_count; i++) {
         for (int j = 0; j < isl_count; j++) {
