@@ -226,8 +226,13 @@ int check_lines(char *filename, t_graph *graph) {
     graph->islands = (char **)malloc(sizeof(char *) *
             (graph->island_count + 1));
     graph->islands[graph->island_count] = NULL;
+    /*
+     * This fragment uses formula (n*(n - 1))/2 to calculate
+     *  the maximum amount of routes there might be (and adds 1 for NULL).
+     */
     graph->literal_paths = (char **)malloc(sizeof(char *) *
-            (graph->island_count * graph->island_count + 1));
+            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
+
     graph->literal_paths[graph->island_count * graph->island_count] = NULL;
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
