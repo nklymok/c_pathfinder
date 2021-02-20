@@ -4,6 +4,7 @@ void del_graph(t_graph **p_graph) {
     t_graph *graph = *p_graph;
     free(graph->weights);
     mx_del_strarr(&graph->islands);
+    mx_del_strarr(&graph->literal_paths);
     free(graph);
 }
 
@@ -32,6 +33,9 @@ int main(int argc, char **argv) {
     if (!handle_errors(argc, argv, graph)) {
         exit(0);
     }
+    output_graph(graph);
+    printf("\n\n\n");
+    find_paths(graph);
     output_graph(graph);
     del_graph(&graph);
 }

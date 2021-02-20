@@ -13,15 +13,6 @@ void report_error(int errno, char *filename) {
     char *prefix = NULL;
     char *suffix = NULL;
 
-    (void)error_file_template;
-    (void)error_line_template;
-    (void)error_num_islands;
-    (void)error_dup_bridges;
-    (void)error_len_sum;
-    (void)not_exist;
-    (void)is_empty;
-    (void)not_valid;
-
     switch (errno) {
         case ERR_ARG_COUNT:
             mx_printerr("usage: ./pathfinder [filename]");

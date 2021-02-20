@@ -128,6 +128,11 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
                                      (const char **) graph->islands);
     island2_index = mx_get_str_index((const char *) island2,
                                      (const char **) graph->islands);
+    //set zero cost for island to itself
+    graph->weights[island1_index * graph->island_count + island1_index] =
+            0;
+    graph->weights[island2_index * graph->island_count + island2_index] =
+            0;
     //set cost between islands
     if (check_cost_already_filled(island1_index, island2_index, graph))
         return ERR_DUPLICATE_BRIDGES;
@@ -154,16 +159,23 @@ int check_lines(char *filename, t_graph *graph) {
     int parse_result = 0;
 
     fd = open(filename, O_RDONLY);
+    // parsing line 1
     mx_read_line(&current_line, 1, '\n', fd);
     if (!first_line_correct(current_line)) {
         mx_strdel(&current_line);
         return 1;
     }
+    // allocating graph children
     graph->island_count = mx_atoi(current_line);
-    graph->islands = (char **)malloc(sizeof(char *) * (graph->island_count + 1));
+    graph->islands = (char **)malloc(sizeof(char *) *
+            (graph->island_count + 1));
     graph->islands[graph->island_count] = NULL;
+    graph->literal_paths = (char **)malloc(sizeof(char *) *
+            (graph->island_count * graph->island_count + 1));
+    graph->literal_paths[graph->island_count * graph->island_count] = NULL;
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
+    // parsing rest of the lines
     while (mx_read_line(&current_line ,1, '\n', fd) != -1) {
         parse_result = parse_bridge_syntax(current_line, graph);
         if (parse_result == -1) {
@@ -176,23 +188,7 @@ int check_lines(char *filename, t_graph *graph) {
         }
         line_count++;
     }
-//    for (int i = 0; i < graph->island_count; i++) {
-//        if (mx_read_line(&current_line, 1, '\n', fd) < 0) {
-//            return ERR_NUM_OF_ISLANDS;
-//        }
-//        if (!parse_bridge_syntax(current_line, graph)) {
-//            return i + 2;
-//        }
-//        if (graph->len_sum > MAX_INT) {
-//            return ERR_LEN_SUM_TOO_BIG;
-//        }
-//        // TODO put islands into graph
-//        // TODO check for duplicates
-//    }
-//    // if hasn't reached EOF
-//    if (mx_read_line(&current_line, 1, '\n', fd) != -1) {
-//        return ERR_NUM_OF_ISLANDS;
-//    }
+    close(fd);
     mx_strdel(&current_line);
     return 0;
 }
