@@ -141,6 +141,8 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
     int island1_index;
     int island2_index;
     long cost;
+    char *temp_str1;
+    char *temp_str2;
 
     if (mx_strlen(line) < 5) return -1;
     if (!check_bridge_syntax(line)) return -1;
@@ -164,6 +166,23 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
                                      (const char **) graph->islands);
     island2_index = mx_get_str_index((const char *) island2,
                                      (const char **) graph->islands);
+    // Set path from island1 to island2
+    // (This part might be optimized by freeing stuff)
+    // actually, it should be put into other function, but i'm too lazy to refactor it tonight
+    temp_str1 = mx_strjoin(island1, " -> ");
+    temp_str2 = mx_strjoin(temp_str1, island2);
+    graph->literal_paths[
+            island1_index * graph->island_count + island2_index] =
+                    mx_strdup(temp_str2);
+    free(temp_str1);
+    free(temp_str2);
+    temp_str1 = mx_strjoin(island2, " -> ");
+    temp_str2 = mx_strjoin(temp_str1, island1);
+    graph->literal_paths[
+            island2_index * graph->island_count + island1_index] =
+            mx_strdup(temp_str2);
+    free(temp_str1);
+    free(temp_str2);
     //set zero cost for island to itself
     graph->weights[island1_index * graph->island_count + island1_index] =
             0;
@@ -227,12 +246,16 @@ int check_lines(char *filename, t_graph *graph) {
             (graph->island_count + 1));
     graph->islands[graph->island_count] = NULL;
     /*
-     * This fragment uses formula (n*(n - 1))/2 to calculate
-     *  the maximum amount of routes there might be (and adds 1 for NULL).
+     * This fragment should use formula (n*(n - 1))/2 to calculate
+     *  the maximum amount of routes there might be (and add 1 for NULL).
+     *  However, since I use matrix, I more than double memory used.
+     *  I haven't come up with the idea how to implement it yet.
+     *  Here is this fragment the way it should be:
      */
+//    graph->literal_paths = (char **)malloc(sizeof(char *) *
+//            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
     graph->literal_paths = (char **)malloc(sizeof(char *) *
-            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
-
+            (graph->island_count * graph->island_count + 1));
     graph->literal_paths[graph->island_count * graph->island_count] = NULL;
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);

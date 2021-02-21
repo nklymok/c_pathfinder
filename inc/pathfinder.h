@@ -17,6 +17,7 @@ typedef struct s_graph {
     int last_filled_index;
     char **islands;
     char **literal_paths;
+//    char **literal_prices;
     int *weights;
 } t_graph;
 

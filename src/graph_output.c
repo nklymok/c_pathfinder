@@ -27,6 +27,11 @@ void print_distance(t_graph *graph, int route_weight) {
     printf("Distance: %d\n", route_weight);
 }
 
+void print_route(t_graph *graph, int island1, int island2) {
+    printf("Route: %s\n",
+           graph->literal_paths[island1 * graph->island_count + island2]);
+}
+
 void output_graph_matrix(t_graph *graph) {
     char **islands = graph->islands;
     int *weights = graph->weights;
@@ -55,7 +60,7 @@ void output_graph_routes(t_graph *graph) {
             route_weight = weights[i * island_count + j];
             print_separator();
             print_path(graph, i, j);
-//            print_route(graph, island1_weight, island2_weight);
+            print_route(graph, i, j);
             print_distance(graph, route_weight);
             print_separator();
         }
