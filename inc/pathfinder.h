@@ -11,6 +11,7 @@
 
 #define MAX_INT 2147483647
 
+// TODO price history, showing equal paths
 typedef struct s_graph {
     int island_count;
     long len_sum;

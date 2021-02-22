@@ -18,6 +18,7 @@ void set_literal_path(t_graph *graph, int from, int to, int proxy) {
     temp_join = mx_strjoin(from_proxy, " -> ");
     if (paths[from * isl_count + to]) {
         free(paths[from * isl_count + to]);
+        paths[from * isl_count + to] = NULL;
     }
     paths[from * isl_count + to] = mx_strjoin(
                                 temp_join,
@@ -26,11 +27,13 @@ void set_literal_path(t_graph *graph, int from, int to, int proxy) {
     temp_join = mx_strjoin(to_proxy, " -> ");
     if (paths[to * isl_count + from]) {
         free(paths[to * isl_count + from]);
+        paths[to * isl_count + from] = NULL;
     }
     paths[to * isl_count + from] = mx_strjoin(
-                                    mx_strjoin(to_proxy, " -> "),
+                                    temp_join,
                                     proxy_from);
     free(temp_join);
+    temp_join = NULL;
 }
 
 /*
