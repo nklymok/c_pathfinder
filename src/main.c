@@ -16,11 +16,11 @@ int main(int argc, char **argv) {
     if (!handle_errors(argc, argv, graph)) {
         exit(0);
     }
-    output_graph_matrix(graph);
-    printf("\n\n\n");
+//    output_graph_matrix(graph);
+//    printf("\n\n\n");
     find_paths(graph);
-    output_graph_matrix(graph);
-    printf("\n\n\n");
+//    output_graph_matrix(graph);
+//    printf("\n\n\n");
     output_graph_routes(graph);
     del_graph(&graph);
 }
