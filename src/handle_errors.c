@@ -140,11 +140,7 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
     char *island2 = NULL;
     int island1_index;
     int island2_index;
-    int lpath1_index;
-    int lpath2_index;
     long cost;
-    char *temp_str1 = NULL;
-    char *temp_str2 = NULL;
 
     if (mx_strlen(line) < 5) return -1;
     if (!check_bridge_syntax(line)) return -1;
@@ -154,6 +150,7 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
     if (mx_strcmp(island1, island2) == 0) return -1;
     cost = mx_atol(islands[2]);
     graph->len_sum += cost;
+    // If either of islands is new, check for island count & add it
     if (!mx_contains_str(island1, (const char **) graph->islands)) {
         if (graph->last_filled_index >= graph->island_count) return ERR_NUM_OF_ISLANDS;
         graph->islands[graph->last_filled_index++] = mx_strdup(island1);
@@ -166,28 +163,14 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
                                      (const char **) graph->islands);
     island2_index = mx_get_str_index((const char *) island2,
                                      (const char **) graph->islands);
-
-    // Set path from island1 to island2
-    // actually, it should be put into other function, but i'm too lazy to refactor it tonight
-    lpath1_index = island1_index * graph->island_count + island2_index;
-    lpath2_index = island2_index * graph->island_count + island1_index;
-    temp_str1 = mx_strjoin(island1, " -> ");
-    temp_str2 = mx_strjoin(temp_str1, island2);
-    graph->literal_paths[lpath1_index] = mx_strdup(temp_str2);
-    free(temp_str1);
-    free(temp_str2);
-    temp_str1 = mx_strjoin(island2, " -> ");
-    temp_str2 = mx_strjoin(temp_str1, island1);
-    graph->literal_paths[lpath2_index] = mx_strdup(temp_str2);
-    free(temp_str1);
-    free(temp_str2);
-
-    //set zero cost for island to itself
+    // path from island1 to island2, i.e "A -> B"
+    set_initial_path(graph, island1_index, island2_index);
+    // Set zero cost for island to itself, both ways(!)
     graph->weights[island1_index * graph->island_count + island1_index] =
             0;
     graph->weights[island2_index * graph->island_count + island2_index] =
             0;
-    //set cost between islands
+    // Set cost between islands, both ways(!), or ERR if already filled
     if (check_cost_already_filled(island1_index, island2_index, graph))
         return ERR_DUPLICATE_BRIDGES;
     graph->weights[island1_index * graph->island_count + island2_index] =
@@ -255,7 +238,6 @@ int check_lines(char *filename, t_graph *graph) {
 //            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
     graph->literal_paths = (char **)malloc(sizeof(char *) *
             (graph->island_count * graph->island_count + 1));
-    graph->literal_paths[graph->island_count * graph->island_count] = NULL;
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
     // parsing rest of the lines

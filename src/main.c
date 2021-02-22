@@ -36,6 +36,7 @@ void del_graph(t_graph **p_graph) {
 int main(int argc, char **argv) {
     t_graph *graph = malloc(sizeof(t_graph));
     if (!handle_errors(argc, argv, graph)) {
+        free(graph);
         exit(0);
     }
     find_paths(graph);

@@ -2,4 +2,7 @@
 obj
 libmx.a
 pathfinder
-test.txt
+test1.txt
+test2.txt
+expected_output1
+expected_output2

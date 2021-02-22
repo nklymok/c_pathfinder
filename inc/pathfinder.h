@@ -27,3 +27,4 @@ void report_error(int errno, char *filename);
 void find_paths(t_graph *graph);
 void output_graph_matrix(t_graph *graph);
 void output_graph_routes(t_graph *graph);
+void set_initial_path(t_graph *graph, int isl1_index, int isl2_index);
