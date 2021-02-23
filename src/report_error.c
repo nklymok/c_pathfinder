@@ -27,7 +27,7 @@ void report_error(int errno, char *filename) {
 
     switch (errno) {
         case ERR_ARG_COUNT:
-            mx_printerr("usage: ./pathfinder [filename]");
+            mx_printerr("usage: ./pathfinder [filename]\n");
             return;
         case ERR_FILE_NOT_EXISTS:
             prefix = mx_strjoin(error_file_template, filename);
@@ -56,6 +56,7 @@ void report_error(int errno, char *filename) {
     }
     result = mx_strjoin(prefix, suffix);
     mx_printerr(result);
+    mx_printerr("\n");
     mx_strdel(&prefix);
     mx_strdel(&result);
 }
