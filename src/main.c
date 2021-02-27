@@ -13,7 +13,7 @@ void del_paths(t_graph *graph) {
         for (int j = 0; j < graph->island_count; j++) {
             if (graph->weights[i * graph->island_count + j] > 0 &&
             graph->literal_paths[i * graph->island_count + j]) {
-                free(graph->literal_paths[i * graph->island_count + j]);
+                mx_strdel(&graph->literal_paths[i * graph->island_count + j]);
                 graph->literal_paths[i * graph->island_count + j] = NULL;
             }
         }
@@ -22,9 +22,24 @@ void del_paths(t_graph *graph) {
     free(graph->literal_paths);
 }
 
+void del_distances(t_graph *graph) {
+    for (int i = 0; i < graph->island_count; i++) {
+        for (int j = 0; j < graph->island_count; j++) {
+            if (graph->weights[i * graph->island_count + j] > 0 &&
+                graph->literal_distances[i * graph->island_count + j]) {
+                mx_strdel(&graph->literal_distances[i * graph->island_count + j]);
+                graph->literal_distances[i * graph->island_count + j] = NULL;
+            }
+        }
+    }
+    free(*graph->literal_distances);
+    free(graph->literal_distances);
+}
+
 void del_graph(t_graph **p_graph) {
     t_graph *graph = *p_graph;
     del_paths(graph);
+    del_distances(graph);
     free(graph->weights);
     mx_del_strarr(&graph->islands);
     free(graph);

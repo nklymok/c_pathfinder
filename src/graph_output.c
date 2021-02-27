@@ -26,15 +26,19 @@ void print_path(t_graph *graph, int island1, int island2) {
     mx_printchar('\n');
 }
 
-void print_distance(int route_weight) {
+void print_distance(t_graph *graph, int island1, int island2) {
+    int isl_count = graph->island_count;
+
     mx_printstr("Distance: ");
-    mx_printint(route_weight);
+    mx_printstr(graph->literal_distances[island1 * isl_count + island2]);
     mx_printchar('\n');
 }
 
 void print_route(t_graph *graph, int island1, int island2) {
+    int isl_count = graph->island_count;
+
     mx_printstr("Route: ");
-    mx_printstr(graph->literal_paths[island1 * graph->island_count + island2]);
+    mx_printstr(graph->literal_paths[island1 * isl_count + island2]);
     mx_printchar('\n');
 }
 
@@ -58,17 +62,14 @@ void output_graph_matrix(t_graph *graph) {
 }*/
 
 void output_graph_routes(t_graph *graph) {
-    int *weights = graph->weights;
     int island_count = graph->island_count;
-    int route_weight;
 
     for (int i = 0; i < island_count; i++) {
         for (int j = i + 1; j < island_count; j++) {
-            route_weight = weights[i * island_count + j];
             print_separator();
             print_path(graph, i, j);
             print_route(graph, i, j);
-            print_distance(route_weight);
+            print_distance(graph, i, j);
             print_separator();
         }
     }

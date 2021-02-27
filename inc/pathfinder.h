@@ -18,7 +18,7 @@ typedef struct s_graph {
     int last_filled_index;
     char **islands;
     char **literal_paths;
-//    char **literal_prices;
+    char **literal_distances;
     int *weights;
 } t_graph;
 
@@ -28,3 +28,4 @@ void find_paths(t_graph *graph);
 void output_graph_matrix(t_graph *graph);
 void output_graph_routes(t_graph *graph);
 void set_initial_path(t_graph *graph, int isl1_index, int isl2_index);
+void set_initial_distance(t_graph *graph, int isl1_index, int isl2_index);

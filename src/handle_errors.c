@@ -163,7 +163,7 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
                                      (const char **) graph->islands);
     island2_index = mx_get_str_index((const char *) island2,
                                      (const char **) graph->islands);
-    // path from island1 to island2, i.e "A -> B"
+    // Path from island1 to island2, i.e "A -> B"
     set_initial_path(graph, island1_index, island2_index);
     // Set zero cost for island to itself, both ways(!)
     graph->weights[island1_index * graph->island_count + island1_index] =
@@ -177,6 +177,8 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
             (int) cost;
     graph->weights[island2_index * graph->island_count + island1_index] =
             (int) cost;
+    // Cost from island1 to island2, i.e. "5"
+    set_initial_distance(graph, island1_index, island2_index);
     mx_del_strarr(&islands);
     return 0;
 }
@@ -237,6 +239,8 @@ int check_lines(char *filename, t_graph *graph) {
 //    graph->literal_paths = (char **)malloc(sizeof(char *) *
 //            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
     graph->literal_paths = (char **)malloc(sizeof(char *) *
+            (graph->island_count * graph->island_count + 1));
+    graph->literal_distances = (char **)malloc(sizeof(char *) *
             (graph->island_count * graph->island_count + 1));
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
