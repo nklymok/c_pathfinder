@@ -61,16 +61,68 @@ void output_graph_matrix(t_graph *graph) {
     }
 }*/
 
+void print_complex_route(t_graph *graph, int island1, int island2) {
+    print_separator();
+    print_path(graph, island1, island2);
+    print_route(graph, island1, island2);
+    print_distance(graph, island1, island2);
+    print_separator();
+}
+
+void print_alternatives(t_graph *graph, int island1, int island2) {
+    int isl_count = graph->island_count;
+    int shortest_path = graph->weights[island1 * isl_count + island2];
+    char *literal_path = graph->literal_paths[island1 * isl_count + island2];
+    char *lpath1 = NULL;
+    char *lpath2 = NULL;
+    char *ldist1 = NULL;
+    char *ldist2 = NULL;
+    char *alt_path = NULL;
+    char *alt_dist = NULL;
+    int path1;
+    int path2;
+
+    // Floyd-Warshall algorithm (j - from, k - to, i - proxy)
+    for (int proxy = 0; proxy < isl_count; proxy++) {
+        if (proxy == island2 || proxy == island1) continue;
+        path1 = graph->weights[island1 * isl_count + proxy];
+        path2 = graph->weights[proxy * isl_count + island2];
+        if (path1 != -1 && path2 != -1 &&
+            (shortest_path == path1 + path2 || shortest_path == -1)) {
+            lpath1 = graph->literal_paths[island1 * isl_count + proxy];
+            lpath2 = graph->literal_paths[proxy * isl_count + island2];
+            alt_path = build_literal_path(lpath1, lpath2);
+            if (mx_strcmp(alt_path, literal_path) == 0) {
+                mx_strdel(&alt_path);
+                alt_path = NULL;
+                continue;
+            }
+            ldist1 = graph->literal_distances[island1 * isl_count + proxy];
+            ldist2 = graph->literal_distances[proxy * isl_count + island2];
+            alt_dist = build_literal_distance(ldist1, ldist2, shortest_path);
+            print_separator();
+            print_path(graph, island1, island2);
+            mx_printstr("Route: ");
+            mx_printstr(alt_path);
+            mx_printchar('\n');
+            mx_printstr("Distance: ");
+            mx_printstr(alt_dist);
+            mx_printchar('\n');
+            // todo distance too
+            print_separator();
+            mx_strdel(&alt_path);
+            mx_strdel(&alt_dist);
+        }
+    }
+}
+
 void output_graph_routes(t_graph *graph) {
     int island_count = graph->island_count;
 
     for (int i = 0; i < island_count; i++) {
         for (int j = i + 1; j < island_count; j++) {
-            print_separator();
-            print_path(graph, i, j);
-            print_route(graph, i, j);
-            print_distance(graph, i, j);
-            print_separator();
+            print_complex_route(graph, i, j);
+            print_alternatives(graph, i, j);
         }
     }
 }

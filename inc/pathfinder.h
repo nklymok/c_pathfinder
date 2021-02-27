@@ -29,3 +29,5 @@ void output_graph_matrix(t_graph *graph);
 void output_graph_routes(t_graph *graph);
 void set_initial_path(t_graph *graph, int isl1_index, int isl2_index);
 void set_initial_distance(t_graph *graph, int isl1_index, int isl2_index);
+char *build_literal_path(char *from_proxy, char *proxy_to);
+char *build_literal_distance(char *from_proxy_raw, char *proxy_to_raw, int weight);
