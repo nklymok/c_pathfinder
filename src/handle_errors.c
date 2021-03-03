@@ -226,9 +226,7 @@ int check_lines(char *filename, t_graph *graph) {
     }
     // allocating graph children
     graph->island_count = mx_atoi(current_line);
-    graph->islands = (char **)malloc(sizeof(char *) *
-            (graph->island_count + 1));
-    graph->islands[graph->island_count] = NULL;
+    graph->islands = mx_strarr_new(graph->island_count);
     /*
      * This fragment should use formula (n*(n - 1))/2 to calculate
      *  the maximum amount of routes there might be (and add 1 for NULL).

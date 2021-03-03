@@ -78,6 +78,7 @@ double mx_pow(double n, unsigned int pow);
 int mx_sqrt(int x);
 int mx_strlen(const char *s);
 char *mx_strnew(int size);
+char **mx_strarr_new(const int size);
 char *mx_nbr_to_hex(unsigned long nbr);
 unsigned long mx_hex_to_nbr(const char *hex);
 char *mx_itoa(int number);

@@ -18,7 +18,6 @@ void del_paths(t_graph *graph) {
             }
         }
     }
-    free(*graph->literal_paths);
     free(graph->literal_paths);
 }
 
@@ -32,7 +31,6 @@ void del_distances(t_graph *graph) {
             }
         }
     }
-    free(*graph->literal_distances);
     free(graph->literal_distances);
 }
 
@@ -45,8 +43,20 @@ void del_graph(t_graph **p_graph) {
     free(graph);
 }
 
-int main(int argc, char **argv) {
+t_graph *init_graph() {
     t_graph *graph = malloc(sizeof(t_graph));
+    graph->last_filled_index = 0;
+    graph->island_count = 0;
+    graph->literal_distances = NULL;
+    graph->literal_paths = NULL;
+    graph->weights = NULL;
+    graph->islands = NULL;
+    graph->len_sum = 0;
+    return graph;
+}
+
+int main(int argc, char **argv) {
+    t_graph *graph = init_graph();
     if (!handle_errors(argc, argv, graph)) {
         free(graph);
         exit(0);

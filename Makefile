@@ -8,8 +8,9 @@ OBJD = obj
 LIBD = libmx
 
 CC = clang
-CFLAGS = -std=c11 $(addprefix -W, all extra error pedantic)
-
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
+#CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
+# -g3 -O0 -fno-omit-frame-pointer -fsanitize=address,undefined
 MV = mv
 MK = mkdir -p
 RM = rm -rf
