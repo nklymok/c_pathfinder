@@ -81,8 +81,7 @@ void print_alternatives(t_graph *graph, int island1, int island2) {
     char *alt_dist = NULL;
     int path1;
     int path2;
-
-    // Floyd-Warshall algorithm (j - from, k - to, i - proxy)
+    // TODO print one-bridge alternatives (in case FIFO two-bridge solution is first)
     for (int proxy = 0; proxy < isl_count; proxy++) {
         if (proxy == island2 || proxy == island1) continue;
         path1 = graph->weights[island1 * isl_count + proxy];
