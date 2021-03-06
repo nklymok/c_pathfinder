@@ -281,6 +281,10 @@ bool handle_errors(int argc, char **argv, t_graph *graph) {
         report_error(incorrect_line, filename);
         return false;
     }
+    if (graph->last_filled_index != graph->island_count) {
+        report_error(ERR_NUM_OF_ISLANDS, filename);
+        return false;
+    }
 
     return true;
 }

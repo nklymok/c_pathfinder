@@ -107,7 +107,6 @@ void print_alternatives(t_graph *graph, int island1, int island2) {
             mx_printstr("Distance: ");
             mx_printstr(alt_dist);
             mx_printchar('\n');
-            // todo distance too
             print_separator();
             mx_strdel(&alt_path);
             mx_strdel(&alt_dist);
