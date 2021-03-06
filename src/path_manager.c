@@ -37,7 +37,7 @@ char *build_literal_path(char *from_proxy, char *proxy_to) {
     char *result = NULL;
     char *temp_join = NULL;
 
-    proxy_to = &proxy_to[mx_get_char_index(proxy_to, '>') + 2];
+    proxy_to = mx_get_char_index(proxy_to, '>') > -1 ? &proxy_to[mx_get_char_index(proxy_to, '>') + 2] : proxy_to;
     temp_join = mx_strjoin(from_proxy, " -> ");
     result = mx_strjoin(temp_join, proxy_to);
     free(temp_join);
@@ -113,7 +113,8 @@ void find_paths(t_graph *graph) {
     int *curr_path;
     int path1;
     int path2;
-
+    // TODO if 'proxy' is before 'to', set it as the first shortest path. Add only one proxy
+    //  then, when showing alternatives, if proxy is after to, show from - to, set init weight to -1 and go on
     // Floyd-Warshall algorithm (j - from, k - to, i - proxy)
     for (int i = 0; i < isl_count; i++) {
         for (int j = 0; j < isl_count; j++) {
@@ -123,8 +124,10 @@ void find_paths(t_graph *graph) {
                 if (j == k || j == i) continue;
                 curr_path = &graph->weights[j * isl_count + k];
                 path2 = graph->weights[i * isl_count + k];
-                if (path1 != -1 && path2 != -1 &&
-                    (*curr_path > path1 + path2 || *curr_path == -1)) {
+                if ((path1 != -1 && path2 != -1) && // if paths are real
+                        ((*curr_path > path1 + path2 || *curr_path == -1) || // if path is shorter or there is no path yet
+                        (*curr_path >= path1 + path2 && i < k && !graph->has_proxy[j * isl_count + k]))) { // if path is the first fastest proxy path that goes before the initial connection
+                    graph->has_proxy[j * isl_count + k] = true;
                     *curr_path = path1 + path2;
                     set_literal_path(graph, j, k, i);
                     set_literal_distance(graph, j, k, i);
