@@ -167,15 +167,15 @@ int parse_bridge_syntax(char *line, t_graph *graph) {
     set_initial_path(graph, island1_index, island2_index);
     // Set zero cost for island to itself, both ways(!)
     graph->weights[island1_index * graph->island_count + island1_index] =
-            0;
-    graph->weights[island2_index * graph->island_count + island2_index] =
+            graph->weights[island2_index * graph->island_count + island2_index] =
             0;
     // Set cost between islands, both ways(!), or ERR if already filled
     if (check_cost_already_filled(island1_index, island2_index, graph))
         return ERR_DUPLICATE_BRIDGES;
     graph->weights[island1_index * graph->island_count + island2_index] =
-            (int) cost;
-    graph->weights[island2_index * graph->island_count + island1_index] =
+            graph->weights[island2_index * graph->island_count + island1_index] =
+            graph->init_weights[island1_index * graph->island_count + island2_index] =
+            graph->init_weights[island2_index * graph->island_count + island1_index] =
             (int) cost;
     // Cost from island1 to island2, i.e. "5"
     set_initial_distance(graph, island1_index, island2_index);
@@ -240,7 +240,10 @@ int check_lines(char *filename, t_graph *graph) {
             graph->island_count * graph->island_count);
     graph->literal_distances = mx_strarr_new(graph->island_count * graph->island_count);
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
+    graph->init_weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
+    graph->has_proxy = (bool *)malloc(sizeof(bool) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
+    fill_weights(graph->init_weights, graph->island_count);
     // parsing rest of the lines
     while (mx_read_line(&current_line ,1, '\n', fd) != -1) {
         parse_result = parse_bridge_syntax(current_line, graph);

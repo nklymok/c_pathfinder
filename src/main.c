@@ -39,7 +39,9 @@ void del_graph(t_graph **p_graph) {
     del_paths(graph);
     del_distances(graph);
     free(graph->weights);
+    free(graph->init_weights);
     mx_del_strarr(&graph->islands);
+    free(graph->has_proxy);
     free(graph);
 }
 
@@ -51,6 +53,7 @@ t_graph *init_graph() {
     graph->literal_paths = NULL;
     graph->weights = NULL;
     graph->init_weights = NULL;
+    graph->has_proxy = NULL;
     graph->islands = NULL;
     graph->len_sum = 0;
     return graph;

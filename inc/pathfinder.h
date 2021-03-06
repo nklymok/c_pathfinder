@@ -20,6 +20,7 @@ typedef struct s_graph {
     char **literal_paths;
     char **literal_distances;
     int *init_weights;
+    bool *has_proxy;
     int *weights;
 } t_graph;
 

@@ -83,6 +83,26 @@ void print_alternatives(t_graph *graph, int island1, int island2) {
     int path2;
     // TODO print one-bridge alternatives (in case FIFO two-bridge solution is first)
     for (int proxy = 0; proxy < isl_count; proxy++) {
+        if (proxy >= island2 && graph->init_weights[island1 * isl_count + island2] != -1 &&
+        graph->init_weights[island1 * isl_count + island2] == shortest_path) {
+            alt_path = build_literal_path(graph->islands[island1], graph->islands[island2]);
+            if (mx_strcmp(alt_path, literal_path) != 0) {
+                alt_dist = mx_itoa(shortest_path);
+                print_separator();
+                print_path(graph, island1, island2);
+                mx_printstr("Route: ");
+                mx_printstr(alt_path);
+                mx_printchar('\n');
+                mx_printstr("Distance: ");
+                mx_printstr(alt_dist);
+                mx_printchar('\n');
+                print_separator();
+            }
+            mx_strdel(&alt_path);
+            mx_strdel(&alt_dist);
+            graph->init_weights[island1 * isl_count + island2] = -1;
+            graph->init_weights[island2 * isl_count + island1] = -1;
+        }
         if (proxy == island2 || proxy == island1) continue;
         path1 = graph->weights[island1 * isl_count + proxy];
         path2 = graph->weights[proxy * isl_count + island2];
