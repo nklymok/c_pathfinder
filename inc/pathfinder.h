@@ -19,6 +19,7 @@ typedef struct s_graph {
     char **islands;
     char **literal_paths;
     char **literal_distances;
+    int *init_weights;
     int *weights;
 } t_graph;
 

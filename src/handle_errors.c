@@ -236,10 +236,9 @@ int check_lines(char *filename, t_graph *graph) {
      */
 //    graph->literal_paths = (char **)malloc(sizeof(char *) *
 //            (((graph->island_count * (graph->island_count - 1)) / 2) + 1));
-    graph->literal_paths = (char **)malloc(sizeof(char *) *
-            (graph->island_count * graph->island_count + 1));
-    graph->literal_distances = (char **)malloc(sizeof(char *) *
-            (graph->island_count * graph->island_count + 1));
+    graph->literal_paths = mx_strarr_new(
+            graph->island_count * graph->island_count);
+    graph->literal_distances = mx_strarr_new(graph->island_count * graph->island_count);
     graph->weights = (int *)malloc(sizeof(int) * (graph->island_count * graph->island_count));
     fill_weights(graph->weights, graph->island_count);
     // parsing rest of the lines

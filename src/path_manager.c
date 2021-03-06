@@ -51,7 +51,7 @@ void set_literal_path(t_graph *graph, int from, int to, int proxy) {
     char *proxy_to = paths[proxy * isl_count + to];
 
     if (paths[from * isl_count + to]) {
-        free(paths[from * isl_count + to]);
+        mx_strdel(&paths[from * isl_count + to]);
         paths[from * isl_count + to] = NULL;
     }
     paths[from * isl_count + to] = build_literal_path(from_proxy, proxy_to);

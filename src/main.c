@@ -50,6 +50,7 @@ t_graph *init_graph() {
     graph->literal_distances = NULL;
     graph->literal_paths = NULL;
     graph->weights = NULL;
+    graph->init_weights = NULL;
     graph->islands = NULL;
     graph->len_sum = 0;
     return graph;
