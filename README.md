@@ -1,10 +1,10 @@
 # Pathfinder
 
-Find the shortest path between every point pair there is.
+Find all the shortest paths between every point pair there is.
 
-Provide the list bridges between pairs of cities and the length of the bridge, and get all of the best possible routes.
+Provide the list of bridges between cities and the length of the bridge, and get the best possible routes, all of them.
 
-This is one of the examples how Floyd-Warshall algorithm might be implemented.
+This is one of the examples how the Floyd-Warshall algorithm is used.
 
 ### Input Example
 First line should contain the number of islands.
